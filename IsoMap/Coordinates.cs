@@ -30,7 +30,7 @@ namespace IsoMap
 
     public class Coordinates
     {
-        public Vector2 CartesianToIsometric(Vector2 v_in)
+        public Vector2 ToIsometric(Vector2 v_in)
         {
             if (v_in.IsCartesian)
             {
@@ -44,7 +44,7 @@ namespace IsoMap
             }
         }
 
-        public Vector2 IsometricToCartesian(Vector2 v_in)
+        public Vector2 ToCartesian(Vector2 v_in)
         {
             if (!v_in.IsCartesian)
             {
