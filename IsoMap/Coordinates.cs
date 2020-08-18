@@ -21,9 +21,9 @@ namespace IsoMap
             IsCartesian = isCartesian;
         }
 
-        public int X { get; }
+        public int X { get; set; }
 
-        public int Y { get; }
+        public int Y { get; set; }
 
         public bool IsCartesian { get; }
     }
