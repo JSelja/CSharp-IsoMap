@@ -2,11 +2,11 @@
 
 namespace IsoMap
 {
-    public class Vector2
+    public class IsoVector
     {
         // Describes a point in 2D space, using X and Y.
         // Two parameter constructor, automatically set to cartesian coordinates.
-        public Vector2(int x, int y)
+        public IsoVector(int x, int y)
         {
             X = x;
             Y = y;
@@ -14,7 +14,7 @@ namespace IsoMap
         }
 
         // Three parameter, constructor.
-        public Vector2(int x, int y, bool isCartesian)
+        public IsoVector(int x, int y, bool isCartesian)
         {
             X = x;
             Y = y;
@@ -30,28 +30,28 @@ namespace IsoMap
 
     public static class Coordinates
     {
-        public static Vector2 ToIsometric(Vector2 v_in)
+        public static IsoVector ToIsometric(IsoVector v_in)
         {
             if (v_in.IsCartesian)
             {
                 int vx = v_in.X - v_in.Y;
                 int vy = (v_in.X + v_in.Y) / 2;
 
-                return new Vector2(vx, vy, false);
+                return new IsoVector(vx, vy, false);
             } else
             {
                 return v_in;
             }
         }
 
-        public static Vector2 ToCartesian(Vector2 v_in)
+        public static IsoVector ToCartesian(IsoVector v_in)
         {
             if (!v_in.IsCartesian)
             {
                 int vx = (2 * v_in.Y + v_in.X) / 2;
                 int vy = (2 * v_in.Y - v_in.X) / 2;
 
-                return new Vector2(vx, vy, true);
+                return new IsoVector(vx, vy, true);
             } else
             {
                 return v_in;
