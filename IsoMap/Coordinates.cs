@@ -28,9 +28,9 @@ namespace IsoMap
         public bool IsCartesian { get; }
     }
 
-    public class Coordinates
+    public static class Coordinates
     {
-        public Vector2 ToIsometric(Vector2 v_in)
+        public static Vector2 ToIsometric(Vector2 v_in)
         {
             if (v_in.IsCartesian)
             {
@@ -44,7 +44,7 @@ namespace IsoMap
             }
         }
 
-        public Vector2 ToCartesian(Vector2 v_in)
+        public static Vector2 ToCartesian(Vector2 v_in)
         {
             if (!v_in.IsCartesian)
             {
