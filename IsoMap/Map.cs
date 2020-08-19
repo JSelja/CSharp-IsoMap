@@ -3,26 +3,27 @@ using System.Drawing;
 
 namespace IsoMap
 {
-    // Specifies the tileset, and location and size within the tileset a specific tile is in.
+    // Specifies the tileset, the location and size within the tileset, and the tile's position in the map.
     // Used as an object passed from tile drawing methods.
     public class Tile
     {
         // Default constructor, with default values.
         public Tile()
         {
-            Tileset = "default";
-            Area = new Rectangle();
+            Tileset = "";
         }
 
         // Primary constructor, inserts tileset name, location and size.
-        public Tile(string tileset, Rectangle area)
+        public Tile(string tileset, Rectangle area, IsoVector position)
         {
             Tileset = tileset;
             Area = area;
+            Position = position;
         }
 
         public string Tileset { get; set; }
         public Rectangle Area { get; set; }
+        public IsoVector Position { get; set; }
     }
 
     // 2D plane of tiles.
@@ -133,6 +134,11 @@ namespace IsoMap
         public int TileWidth { get; set; }
         public int Width { get; set; }
 
+        // Returns the X and Y coordinates within the map based off a single position in the 1-dimensional data array.
+        // TODO: Create relative position function.
+        // TODO: Add map centering boolean and vector.
+        // TODO: Add XML documentation comments to methods.
+
         public Tile GetTile(int layer, IsoVector position)
         {
             // Create local position vector, ensuring it is in cartesian coordinates.
@@ -147,6 +153,10 @@ namespace IsoMap
 
             // Get the GID at the specified layer and location.
             int gid = Layers[layer].Data[pos.X + pos.Y * Width];
+
+            // If the GID is 0, the tile should be left empty. Return an empty tile.
+            if (gid == 0)
+                return new Tile();
 
             // Find the tileset the GID corresponds to.
             int targetTileset = -1;
@@ -175,7 +185,20 @@ namespace IsoMap
                 ts.TileWidth, ts.TileHeight);
 
             // Return the tileset, location and area as a tile.
-            return new Tile(ts.Name, areaRect);
+            return new Tile(ts.Name, areaRect, position);
+        }
+
+        public Tile[,,] GetMap()
+        {
+            // Create a 3-dimensional array of tiles. Outer dimension specifies layers, then rows and columns.
+            Tile[,,] mapTiles = new Tile[Layers.Length, Height, Width];
+
+            for (int l = 0; l < mapTiles.GetLength(0); l++)
+                for (int y = 0; y < mapTiles.GetLength(1); y++)
+                    for (int x = 0; x < mapTiles.GetLength(2); x++)
+                        mapTiles[l, y, x] = GetTile(l, new IsoVector(x, y));
+
+            return mapTiles;
         }
     }
 }

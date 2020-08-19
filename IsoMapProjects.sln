@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsoMap", "IsoMap\IsoMap.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleGame", "ExampleGame\ExampleGame.csproj", "{D394BBAD-BF3B-41B7-9074-E7B7539FEF02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApp", "TestConsoleApp\TestConsoleApp.csproj", "{A4045EB3-3019-46A2-9BC2-0BCB1121ED7D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{D394BBAD-BF3B-41B7-9074-E7B7539FEF02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D394BBAD-BF3B-41B7-9074-E7B7539FEF02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D394BBAD-BF3B-41B7-9074-E7B7539FEF02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4045EB3-3019-46A2-9BC2-0BCB1121ED7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4045EB3-3019-46A2-9BC2-0BCB1121ED7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4045EB3-3019-46A2-9BC2-0BCB1121ED7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4045EB3-3019-46A2-9BC2-0BCB1121ED7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
