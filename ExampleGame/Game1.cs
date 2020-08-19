@@ -74,7 +74,6 @@ namespace ExampleGame
                 {
                     for (int x = 0; x < currentMap.GetLength(2); x++)
                     {
-                        // TODO: Add GetNextDrawTile method, returns next tile based on render mode.
                         Tile drawTile = currentMap[l, y, x];
 
                         // If the tile's texture name is valid, draw it.

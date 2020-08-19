@@ -143,11 +143,12 @@ namespace IsoMap
         public IsoVector CentreOffset { get; }
         public int ScaleFactor { get; set; }
 
-        // Returns the X and Y coordinates within the map based off a single position in the 1-dimensional data array.
-        // TODO: Create relative position function.
-        // TODO: Add map centering boolean and vector.
-        // TODO: Add XML documentation comments to methods.
-
+        /// <summary>
+        /// Centre align the map within the viewport.
+        /// Ensure the scale factor is set before this method is run.
+        /// </summary>
+        /// <param name="viewportWidth">The width of the active game window.</param>
+        /// <param name="viewportHeight">The height of the active game window.</param>
         public void CentreMap(int viewportWidth, int viewportHeight)
         {
             int mapPixelWidth = Width * TileWidth * ScaleFactor;
@@ -157,6 +158,12 @@ namespace IsoMap
             CentreOffset.Y = (viewportHeight - mapPixelHeight) / 2;
         }
 
+        /// <summary>
+        /// Get a particular tile's sprite and position from map data.
+        /// </summary>
+        /// <param name="layer">The map layer to lookup.</param>
+        /// <param name="position">The x and y coordinates to lookup.</param>
+        /// <returns>A tile object including the name of the tileset, a rectangle of the sprite within the tileset, and a rectangle of the tile's draw location on screen.</returns>
         public Tile GetTile(int layer, IsoVector position)
         {
             // Create local position vector, ensuring it is in cartesian coordinates.
@@ -212,6 +219,10 @@ namespace IsoMap
             return new Tile(ts.Name, areaRect, posRect);
         }
 
+        /// <summary>
+        /// Get all tiles from the current map.
+        /// </summary>
+        /// <returns>A 3-dimensional array of tile objects.</returns>
         public Tile[,,] GetMap()
         {
             // Create a 3-dimensional array of tiles. Outer dimension specifies layers, then rows and columns.
