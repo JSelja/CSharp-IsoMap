@@ -33,14 +33,18 @@ namespace ExampleGame
             IsMouseVisible = true;
 
             // Temporary viewport width and height.
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 1680;
+            _graphics.PreferredBackBufferHeight = 1000;
         }
 
         protected override void Initialize()
         {
-            MapAsset.LoadMap(@"Content\testmap.json");
-            MapAsset.ActiveMap.ScaleFactor = 4;
+            // Orthogonal map.
+            //MapAsset.LoadMap(@"Content\testmap.json");
+
+            // Isometric map.
+            MapAsset.LoadMap(@"Content\testmap-isometric.json");
+            MapAsset.ActiveMap.ScaleFactor = 1;
             MapAsset.ActiveMap.CentreMap(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             base.Initialize();
@@ -49,7 +53,7 @@ namespace ExampleGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            mapTexture = Assets.LoadTexture2D(Content, "buch-outdoor");
+            mapTexture = Assets.LoadTexture2D(Content, "isometric_grass_and_water");
 
             currentMap = MapAsset.ActiveMap.GetMap();
         }

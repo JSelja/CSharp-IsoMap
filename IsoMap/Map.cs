@@ -156,6 +156,10 @@ namespace IsoMap
 
             CentreOffset.X = (viewportWidth - mapPixelWidth) / 2;
             CentreOffset.Y = (viewportHeight - mapPixelHeight) / 2;
+
+            // If the grid is isometric, centre align the map by half the viewport width.
+            if (Orientation == "isometric")
+                CentreOffset.X = (viewportWidth - TileWidth) / 2;
         }
 
         /// <summary>
@@ -210,10 +214,31 @@ namespace IsoMap
                 ts.TileWidth, ts.TileHeight);
 
             // Create a rectangle with the position of the tile for rendering on-screen.
-            Rectangle posRect = new Rectangle(
-                position.X * areaRect.Width * ScaleFactor + CentreOffset.X,
-                position.Y * areaRect.Height * ScaleFactor + CentreOffset.Y,
-                areaRect.Width * ScaleFactor, areaRect.Height * ScaleFactor);
+            Rectangle posRect;
+            // For orthogonal maps,
+            if (Orientation == "orthogonal")
+            {
+                posRect = new Rectangle(
+                    position.X * TileWidth * ScaleFactor + CentreOffset.X,
+                    position.Y * TileHeight * ScaleFactor + CentreOffset.Y,
+                    areaRect.Width * ScaleFactor, areaRect.Height * ScaleFactor);
+            }
+            // If the orientation is isometric, convert the position vector.
+            else if (Orientation == "isometric")
+            {
+                posRect = new Rectangle(
+                    (position.X - position.Y) * TileWidth / 2 * ScaleFactor + CentreOffset.X,
+                    (position.X + position.Y) * TileHeight / 2 * ScaleFactor + CentreOffset.Y,
+                    areaRect.Width * ScaleFactor, areaRect.Height * ScaleFactor);
+            }
+            // Otherwise, the orientation is not supported. Raise an error and output default value.
+            else
+            {
+                Console.Error.WriteLine("Map.GetTile() - Map has unsupported orientation " + Orientation);
+                return new Tile();
+            }
+
+
 
             // Return the tileset, location and area as a tile.
             return new Tile(ts.Name, areaRect, posRect);
