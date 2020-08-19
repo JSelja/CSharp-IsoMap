@@ -180,6 +180,13 @@ namespace IsoMap
                 return new Tile();
             }
 
+            // If the layer is out of bounds, raise an error and output default value.
+            if (layer < 0 || layer >= Layers.Length)
+            {
+                Console.Error.WriteLine("Map.GetTile() - Layer out of bounds.");
+                return new Tile();
+            }
+
             // Get the GID at the specified layer and location.
             int gid = Layers[layer].Data[pos.X + pos.Y * Width];
 
