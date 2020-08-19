@@ -23,8 +23,6 @@ namespace ExampleGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private int scaleFactor = 4;
-
         private Tile[,,] currentMap;
         private Texture2D mapTexture;
 
@@ -35,13 +33,15 @@ namespace ExampleGame
             IsMouseVisible = true;
 
             // Temporary viewport width and height.
-            _graphics.PreferredBackBufferWidth = 768;
-            _graphics.PreferredBackBufferHeight = 512;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
         }
 
         protected override void Initialize()
         {
             MapAsset.LoadMap(@"Content\testmap.json");
+            MapAsset.ActiveMap.ScaleFactor = 4;
+            MapAsset.ActiveMap.CentreMap(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             base.Initialize();
         }
@@ -80,9 +80,7 @@ namespace ExampleGame
                         // If the tile's texture name is valid, draw it.
                         if (drawTile.Tileset == mapTexture.Name)
                         {
-                            // TODO: Add methods for following.
-                            Rectangle drawTilePos = new Rectangle(drawTile.Position.X * drawTile.Area.Width * scaleFactor, drawTile.Position.Y * drawTile.Area.Height * scaleFactor,
-                                                                  drawTile.Area.Width * scaleFactor, drawTile.Area.Height * scaleFactor);
+                            Rectangle drawTilePos = new Rectangle(drawTile.Position.X, drawTile.Position.Y, drawTile.Position.Width, drawTile.Position.Height);
                             Rectangle drawTileArea = new Rectangle(drawTile.Area.X, drawTile.Area.Y, drawTile.Area.Width, drawTile.Area.Height);
 
                             _spriteBatch.Draw(mapTexture, drawTilePos, drawTileArea, Color.White);

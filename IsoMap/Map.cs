@@ -14,7 +14,7 @@ namespace IsoMap
         }
 
         // Primary constructor, inserts tileset name, location and size.
-        public Tile(string tileset, Rectangle area, IsoVector position)
+        public Tile(string tileset, Rectangle area, Rectangle position)
         {
             Tileset = tileset;
             Area = area;
@@ -23,7 +23,7 @@ namespace IsoMap
 
         public string Tileset { get; set; }
         public Rectangle Area { get; set; }
-        public IsoVector Position { get; set; }
+        public Rectangle Position { get; set; }
     }
 
     // 2D plane of tiles.
@@ -110,6 +110,9 @@ namespace IsoMap
             Tilesets = new Tileset[] { new Tileset() };
             TileWidth = 1;
             Width = 1;
+
+            CentreOffset = new IsoVector(0, 0);
+            ScaleFactor = 1;
         }
 
         // Primary constructor, inserts all necessary data from the JSON file.
@@ -123,6 +126,9 @@ namespace IsoMap
             Tilesets = tilesets;
             TileWidth = tileSize.Width;
             Width = mapSize.Width;
+
+            CentreOffset = new IsoVector(0, 0);
+            ScaleFactor = 1;
         }
 
         public int Height { get; set; }
@@ -134,10 +140,22 @@ namespace IsoMap
         public int TileWidth { get; set; }
         public int Width { get; set; }
 
+        public IsoVector CentreOffset { get; }
+        public int ScaleFactor { get; set; }
+
         // Returns the X and Y coordinates within the map based off a single position in the 1-dimensional data array.
         // TODO: Create relative position function.
         // TODO: Add map centering boolean and vector.
         // TODO: Add XML documentation comments to methods.
+
+        public void CentreMap(int viewportWidth, int viewportHeight)
+        {
+            int mapPixelWidth = Width * TileWidth * ScaleFactor;
+            int mapPixelHeight = Height * TileHeight * ScaleFactor;
+
+            CentreOffset.X = (viewportWidth - mapPixelWidth) / 2;
+            CentreOffset.Y = (viewportHeight - mapPixelHeight) / 2;
+        }
 
         public Tile GetTile(int layer, IsoVector position)
         {
@@ -184,8 +202,14 @@ namespace IsoMap
                 areaY * ts.TileHeight + areaY * ts.Spacing + ts.Margin,
                 ts.TileWidth, ts.TileHeight);
 
+            // Create a rectangle with the position of the tile for rendering on-screen.
+            Rectangle posRect = new Rectangle(
+                position.X * areaRect.Width * ScaleFactor + CentreOffset.X,
+                position.Y * areaRect.Height * ScaleFactor + CentreOffset.Y,
+                areaRect.Width * ScaleFactor, areaRect.Height * ScaleFactor);
+
             // Return the tileset, location and area as a tile.
-            return new Tile(ts.Name, areaRect, position);
+            return new Tile(ts.Name, areaRect, posRect);
         }
 
         public Tile[,,] GetMap()
